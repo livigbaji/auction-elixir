@@ -1,15 +1,22 @@
 defmodule AuctionWeb.Router do
+  alias AuctionWeb.SessionController
   alias AuctionWeb.ItemController
+  alias AuctionWeb.UserController
   use AuctionWeb, :router
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug AuctionWeb.Authenticator
   end
 
   scope "/api", AuctionWeb do
     pipe_through :api
 
     resources "/items", ItemController, only: [:index, :show, :create, :update]
+    resources "/users", UserController, only: [:show, :new, :create]
+
+    post "/login", SessionController, :create
+    delete "/logout", SessionController, :delete
   end
 
   # Enables LiveDashboard only for development
