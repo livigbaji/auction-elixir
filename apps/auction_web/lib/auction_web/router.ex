@@ -12,8 +12,11 @@ defmodule AuctionWeb.Router do
   scope "/api", AuctionWeb do
     pipe_through :api
 
-    resources "/items", ItemController, only: [:index, :show, :create, :update]
+    resources "/items", ItemController, only: [:index, :show, :create, :update] do
+      resources "/bids", BidController, only: [:create]
+    end
     resources "/users", UserController, only: [:show, :new, :create]
+
 
     post "/login", SessionController, :create
     delete "/logout", SessionController, :delete
