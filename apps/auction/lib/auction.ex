@@ -1,5 +1,6 @@
 defmodule Auction do
   alias Auction.{Repo, Item, User, Password, Bid}
+  import Ecto.Query
 
   @repo Repo
 
@@ -52,4 +53,27 @@ defmodule Auction do
     |> Bid.changeset(params)
     |> @repo.insert()
   end
+
+  def get_item_with_bids(id) do
+    id
+    |> get_item()
+    |> @repo.preload(bids: [:user])
+  end
+
+  def get_bids_for_user(user) do
+    query =
+      from b in Bid,
+      where: b.user_id == ^user.id,
+      order_by: [desc: :inserted_at],
+      preload: :item,
+      limit: 10
+    @repo.all(query)
+  end
+
+  # TODO only allow bids that have a higher amount than the current high bid
+  # TODO Don't allolw bids on items after the item's ends_at date and time have passed
+  # TODO Only allow the creation of an item if a user is logged in
+  # TODO Associate newly created items with the logged in user
+  # TODO Try making more complex database queries using the Ecto.Query module
+  # TODO Display the bid datetime in the user's time zone (it's currently in UTC)
 end
