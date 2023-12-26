@@ -8,4 +8,22 @@ defmodule AuctionWeb.ItemView do
       |> Decimal.round(2)
       "$#{dollars_and_cents}"
   end
+
+  def render("item.json", %{item: item}) do
+    %{
+        type: "item",
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        ends_at: item.ends_at
+    }
+  end
+
+  def render("show.json", %{item: item}) do
+    %{data: render_one(item, __MODULE__, "item.json")}
+  end
+
+  def render("index.json", %{items: items}) do
+    %{data: render_many(items, __MODULE__, "item.json")}
+  end
 end

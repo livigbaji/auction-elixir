@@ -1,12 +1,9 @@
 defmodule AuctionWeb.Router do
-  alias AuctionWeb.SessionController
-  alias AuctionWeb.ItemController
-  alias AuctionWeb.UserController
   use AuctionWeb, :router
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug AuctionWeb.Authenticator
+    # plug AuctionWeb.Authenticator
   end
 
   scope "/api", AuctionWeb do
@@ -15,7 +12,7 @@ defmodule AuctionWeb.Router do
     resources "/items", ItemController, only: [:index, :show, :create, :update] do
       resources "/bids", BidController, only: [:create]
     end
-    resources "/users", UserController, only: [:show, :new, :create]
+    resources "/users", UserController, only: [:show, :create]
 
 
     post "/login", SessionController, :create

@@ -1,6 +1,10 @@
 defmodule AuctionWeb.ItemController do
   use AuctionWeb, :controller
 
+  def init(opts) do
+
+  end
+
   def index(conn, _params) do
     items = Auction.list_items()
     render(conn, "stuff.json", items)

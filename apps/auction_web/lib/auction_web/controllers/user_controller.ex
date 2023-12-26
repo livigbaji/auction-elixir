@@ -3,12 +3,7 @@ defmodule AuctionWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Auction.get_user(id)
-    render(conn, "stuff.json", user: user)
-  end
-
-  def new(conn, _params) do
-    user = Auction.new_user()
-    render(conn, "stuff.json", user: user)
+    render(conn, "user.json", user: user)
   end
 
   def create(conn, %{"user" => user_params}) do
