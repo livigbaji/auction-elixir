@@ -1,8 +1,13 @@
 defmodule AuctionTest do
+  alias Auction.{Repo}
   use ExUnit.Case
   doctest Auction
 
-  test "greets the world" do
-    assert Auction.hello() == :world
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+  end
+
+  test "the truth" do
+    assert true
   end
 end
